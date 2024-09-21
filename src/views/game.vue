@@ -1,4 +1,5 @@
 <template>
+    playthefuckinggameautomaticupdatecheck
     <div
         style="display: flex; flex-direction: column; justify-content: center; height: 90vh;">
         <div style="flex: 2; width: 90vw; display: flex; justify-content: space-evenly; padding: 4px; background: rgba(0,0,150, .8)">
