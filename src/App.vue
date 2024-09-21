@@ -27,7 +27,7 @@ import { ref, onMounted } from 'vue';
 const serverStatus = ref('Checking server...');
 
 onMounted(() => {
-    const socket = new WebSocket('ws://your_server_ip:8080'); // Replace with your server's IP
+    const socket = new WebSocket('wws://216.126.35.68:8080'); // Replace with your server's IP
 
     socket.onopen = () => {
         serverStatus.value = 'Connected to game server!';
