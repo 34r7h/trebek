@@ -33,13 +33,19 @@ const wss = new WebSocket.Server({ server });
 wss.on('connection', (ws) => {
     console.log('New player connected');
 
-    ws.on('message', (message) => {
-        console.log('Received:', message);
+    ws.on('message', async (message) => {
+        const decodedMessage = message.toString(); // Decode the buffer
+        console.log('Received:', decodedMessage);
+
+        // Query OpenAI with the received message
+        const aiResponse = await queryOpenAI(decodedMessage);
+        console.log('AI Response:', aiResponse);
 
         // Broadcast message to all clients
         wss.clients.forEach((client) => {
             if (client !== ws && client.readyState === WebSocket.OPEN) {
-                client.send(message);
+                client.send(decodedMessage); // Send the original message
+                client.send(aiResponse); // Send the AI response
             }
         });
     });
