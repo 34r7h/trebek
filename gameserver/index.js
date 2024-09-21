@@ -3,6 +3,24 @@ const fs = require('fs');
 const https = require('https');
 const WebSocket = require('ws');
 
+require('dotenv').config();
+const { OpenAI } = require('openai');
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+});
+
+async function queryOpenAI(prompt) {
+    try {
+        const response = await openai.chat.completions.create({
+            model: 'gpt-3.5-turbo', // Cheapest model
+            messages: [{ role: 'user', content: prompt }],
+        });
+        return response.choices[0].message.content;
+    } catch (error) {
+        console.error('Error querying OpenAI API:', error);
+    }
+}
+
 // Create HTTPS server with SSL certificates
 const server = https.createServer({
     cert: fs.readFileSync('/etc/letsencrypt/live/trebek.lol/fullchain.pem'),
