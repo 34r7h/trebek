@@ -1,25 +1,15 @@
+const https = require('https');
+const fs = require('fs');
 
-const WebSocket = require('ws');
-
-const wss = new WebSocket.Server({ port: 8082 });
-
-wss.on('connection', (ws) => {
-  console.log('New player connected');
-  
-  ws.on('message', (message) => {
-    console.log('Received:', message);
-    
-    // Broadcast the message to all clients (e.g., game state updates)
-    wss.clients.forEach((client) => {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
-        client.send(message);
-      }
-    });
-  });
-
-  ws.on('close', () => {
-    console.log('Player disconnected');
-  });
+const server = https.createServer({
+    cert: fs.readFileSync('/etc/letsencrypt/live/trebek.lol/fullchain.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/trebek.lol/privkey.pem')
 });
 
-console.log('Game server is running on ws://localhost:8082');
+const wss = new WebSocket.Server({ server });
+
+server.listen(8082, () => {
+    console.log('Game server is running on wss://your_ip:8082');
+});
+
+const socket = new WebSocket('wss://216.126.35.68:8082'); // Ensure this URL is correct
