@@ -1,10 +1,10 @@
 // src/router.js
 import { createRouter, createWebHistory } from 'vue-router'
-import Start from './components/start.vue'
-import Register from './components/register.vue'
-import Sponsor from './components/sponsor.vue'
-import Account from './components/account.vue'
-import Game from './components/game.vue'
+import Start from './views/start.vue'
+import Register from './views/register.vue'
+import Sponsor from './views/sponsor.vue'
+import Account from './views/account.vue'
+import Game from './views/game.vue'
 
 const routes = [
   { path: '/', component: Start },

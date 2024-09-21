@@ -1,15 +1,17 @@
+// src/main.js
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import pinia from './store'
+import { useMainStore } from './store'
 
+const app = createApp(App)
 
+app.use(router)
+app.use(pinia)
 
-  const app = createApp(App)
+const mainStore = useMainStore()
+app.config.globalProperties.$store = mainStore // Set store globally
 
-
-  app.use(router)
-  app.use(store)
-  
-  app.mount('#app')
+app.mount('#app')
