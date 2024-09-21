@@ -22,7 +22,32 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 
+const serverStatus = ref('Checking server...');
+
+onMounted(() => {
+    const socket = new WebSocket('ws://your_server_ip:8080'); // Replace with your server's IP
+
+    socket.onopen = () => {
+        serverStatus.value = 'Connected to game server!';
+        console.log('Connected to game server');
+    };
+
+    socket.onmessage = (event) => {
+        console.log('Message from server:', event.data);
+    };
+
+    socket.onerror = (error) => {
+        serverStatus.value = 'Failed to connect to server.';
+        console.error('WebSocket Error:', error);
+    };
+
+    socket.onclose = () => {
+        serverStatus.value = 'Disconnected from game server.';
+        console.log('Disconnected from game server');
+    };
+});
 </script>
 
 <style>
